@@ -19,6 +19,9 @@ const homeScreenData = [
     title: "Interaction",
     data: ["HandlingTouches", "Touchables"]
   },
+  {
+    data: ["CustomFonts"]
+  }
 ];
 
 const HomeScreen = () => {
