@@ -15,6 +15,10 @@ const homeScreenData = [
   {
     data: ["Images"]
   },
+  {
+    title: "Interaction",
+    data: ["HandlingTouches", "Touchables"]
+  },
 ];
 
 const HomeScreen = () => {
