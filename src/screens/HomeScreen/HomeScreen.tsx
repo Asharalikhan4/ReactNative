@@ -12,6 +12,9 @@ const homeScreenData = [
   {
     data: ["PlatformSpecificCode"]
   },
+  {
+    data: ["Images"]
+  },
 ];
 
 const HomeScreen = () => {
