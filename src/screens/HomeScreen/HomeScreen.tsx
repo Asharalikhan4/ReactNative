@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const homeScreenData = [
   {
-    data: ['TextInput'],
+    data: ['TextInput', 'ScrollView'],
   }
 ];
 
