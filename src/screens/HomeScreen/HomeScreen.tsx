@@ -4,7 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 const homeScreenData = [
   {
     data: ['TextInput', 'ScrollView'],
-  }
+  },
+  {
+    title: 'List',
+    data: ['FlatList', 'SectionList'],
+  },
 ];
 
 const HomeScreen = () => {
