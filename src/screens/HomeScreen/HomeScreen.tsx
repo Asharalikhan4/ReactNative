@@ -9,6 +9,9 @@ const homeScreenData = [
     title: 'List',
     data: ['FlatList', 'SectionList'],
   },
+  {
+    data: ["PlatformSpecificCode"]
+  },
 ];
 
 const HomeScreen = () => {
