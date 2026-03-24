@@ -20,7 +20,15 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import BootSplash from 'react-native-bootsplash'; 
+import { PermissionsAndroid } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+import { Platform } from 'react-native';
+import notifee, {
+  AndroidCategory,
+  AndroidImportance,
+  AndroidVisibility,
+} from '@notifee/react-native';
+import BootSplash from 'react-native-bootsplash';
 import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen';
@@ -39,45 +47,128 @@ const RootStack = createNativeStackNavigator({
     Home: {
       screen: HomeScreen,
       options: {
-        title: "Welcome"
-      }
+        title: 'Welcome',
+      },
     },
     TextInput: {
-      screen: TextInputScreen
+      screen: TextInputScreen,
     },
     ScrollView: {
-      screen: ScrollViewScreen
+      screen: ScrollViewScreen,
     },
     FlatList: {
-      screen: FlatListScreen
+      screen: FlatListScreen,
     },
     SectionList: {
-      screen: SectionListScreen
+      screen: SectionListScreen,
     },
     PlatformSpecificCode: {
-      screen: PlatformSpecificCode
+      screen: PlatformSpecificCode,
     },
     Images: {
-      screen: ImagesScreen
+      screen: ImagesScreen,
     },
     HandlingTouches: {
-      screen: HandlingTouches
+      screen: HandlingTouches,
     },
     Touchables: {
-      screen: Touchables
+      screen: Touchables,
     },
     CustomFonts: {
-      screen: CustomFonts
-    }
-  }
+      screen: CustomFonts,
+    },
+  },
 });
 
 const Navigation = createStaticNavigation(RootStack);
 
 function App() {
-  return (
-    <Navigation onReady={() => BootSplash.hide({ fade: true })} />
-  );
-};
+  const requestPermissionAndroid = async () => {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('Android Permission Granted');
+      getToken();
+      // Alert.alert("Permission Granted");
+    } else {
+      // Alert.alert("Permission Denied");
+    }
+  };
+
+  const requestPermissionIOS = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  };
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      requestPermissionAndroid();
+    } else {
+      requestPermissionIOS();
+    }
+  }, []);
+
+  const onDisplayNotification = async remoteMessage => {
+    // Request permissions (required for iOS)
+    // await notifee.requestPermission()
+
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'important_channel',
+      name: 'Urgent Notifications',
+      importance: AndroidImportance.HIGH,
+      sound: 'default',
+      vibration: true,
+    });
+
+    // Display a notification
+    const res = await notifee.displayNotification({
+      title: remoteMessage?.notification?.title,
+      body: remoteMessage?.notification?.body,
+      android: {
+        channelId,
+        smallIcon: "ic_launcher_monochrome",
+        // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+        // pressAction is needed if you want the notification to open the app when pressed
+        importance: AndroidImportance.HIGH,
+        sound: 'default',
+        vibrationPattern: [300, 500],
+        category: AndroidCategory.MESSAGE,
+        visibility: AndroidVisibility.PUBLIC,
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+    console.log('function called 2', res);
+  };
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      onDisplayNotification(remoteMessage);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const getToken = async () => {
+    console.log('getToken function');
+    try {
+      const token = await messaging().getToken();
+      console.log('FCM token', token);
+    } catch (error) {
+      console.log('Token Error', error);
+    }
+  };
+
+  return <Navigation onReady={() => BootSplash.hide({ fade: true })} />;
+}
 
 export default App;
