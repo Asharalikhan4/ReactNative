@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
   <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />  <!-- ✅ Add this -->
-  <uses-permission android:name="android.permission.VIBRATE" />              <!-- ✅ Add this -->
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <uses-permission android:name="android.permission.VIBRATE" />
 
   <application
     android:name=".MainApplication"
@@ -13,14 +13,10 @@
     android:usesCleartextTraffic="${usesCleartextTraffic}"
     android:supportsRtl="true">
 
-    <!-- Add these 2 meta-data tags for FCM notification icon & color -->
+    <!-- Add these 2 meta-data tags for FCM notification icon -->
     <meta-data
       android:name="com.google.firebase.messaging.default_notification_icon"
-      android:resource="@mipmap/ic_launcher_monochrome" />
-
-    <meta-data
-      android:name="com.google.firebase.messaging.default_notification_color"
-      android:resource="@color/white" />
+      android:resource="@drawable/ic_notification" />
 
     <!-- Add this for FCM background messages -->
     <service

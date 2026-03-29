@@ -129,21 +129,32 @@ function App() {
     });
 
     // Display a notification
-    const res = await notifee.displayNotification({
-      title: remoteMessage?.notification?.title,
-      body: remoteMessage?.notification?.body,
-      android: {
-        channelId,
-        smallIcon: "ic_launcher_monochrome",
-        // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
-        // pressAction is needed if you want the notification to open the app when pressed
+    try {
+      // Create a channel (required for Android)
+      const channelId = await notifee.createChannel({
+        id: 'important_channel',
+        name: 'Urgent Notifications',
         importance: AndroidImportance.HIGH,
         sound: 'default',
-        vibrationPattern: [300, 500],
-        category: AndroidCategory.MESSAGE,
-        visibility: AndroidVisibility.PUBLIC,
-        pressAction: {
-          id: 'default',
+        vibration: true,
+      });
+      
+      await notifee.displayNotification({
+        title: remoteMessage?.notification?.title,
+        body: remoteMessage?.notification?.body,
+        android: {
+          channelId,
+          smallIcon: "ic_notification",
+          largeIcon: "https://user-images.githubusercontent.com/14185925/86519462-cde1f000-be32-11ea-8ae6-cdec95754866.png",
+          color: "#67dbfb",
+          importance: AndroidImportance.HIGH,
+          sound: 'default',
+          vibrationPattern: [300, 500],
+          category: AndroidCategory.MESSAGE,
+          visibility: AndroidVisibility.PUBLIC,
+          pressAction: {
+            id: 'default',
+          },
         },
       },
     });
