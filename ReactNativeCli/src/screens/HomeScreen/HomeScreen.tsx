@@ -21,6 +21,9 @@ const homeScreenData = [
   },
   {
     data: ["CustomFonts"]
+  },
+  {
+    data: ["Crashlytics"]
   }
 ];
 

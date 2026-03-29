@@ -41,6 +41,7 @@ import ImagesScreen from './src/screens/ImagesScreen/ImagesScreen';
 import HandlingTouches from './src/screens/HandlingTouches/HandlingTouches';
 import Touchables from './src/screens/HandlingTouches/Touchables';
 import CustomFonts from './src/screens/CustomFonts/CustomFonts';
+import Crashlytics from './src/screens/Crashlytics/Crashlytics';
 
 const RootStack = createNativeStackNavigator({
   screens: {
@@ -77,6 +78,9 @@ const RootStack = createNativeStackNavigator({
     CustomFonts: {
       screen: CustomFonts,
     },
+    Crashlytics: {
+      screen: Crashlytics
+    }
   },
 });
 
@@ -119,15 +123,6 @@ function App() {
     // Request permissions (required for iOS)
     // await notifee.requestPermission()
 
-    // Create a channel (required for Android)
-    const channelId = await notifee.createChannel({
-      id: 'important_channel',
-      name: 'Urgent Notifications',
-      importance: AndroidImportance.HIGH,
-      sound: 'default',
-      vibration: true,
-    });
-
     // Display a notification
     try {
       // Create a channel (required for Android)
@@ -156,9 +151,10 @@ function App() {
             id: 'default',
           },
         },
-      },
-    });
-    console.log('function called 2', res);
+      });
+    } catch (error) {
+      console.log("Push Notification Error", error);
+    }
   };
 
   useEffect(() => {
