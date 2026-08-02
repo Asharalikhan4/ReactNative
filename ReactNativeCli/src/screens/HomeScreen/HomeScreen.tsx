@@ -24,6 +24,9 @@ const homeScreenData = [
   },
   {
     data: ["Crashlytics"]
+  },
+  {
+    data: ["Vibrations"]
   }
 ];
 
