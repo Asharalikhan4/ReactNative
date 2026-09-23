@@ -42,6 +42,7 @@ import HandlingTouches from './src/screens/HandlingTouches/HandlingTouches';
 import Touchables from './src/screens/HandlingTouches/Touchables';
 import CustomFonts from './src/screens/CustomFonts/CustomFonts';
 import Crashlytics from './src/screens/Crashlytics/Crashlytics';
+import VibrationsScreen from './src/screens/Vibrations/VibrationsScreen';
 
 const RootStack = createNativeStackNavigator({
   screens: {
@@ -80,6 +81,9 @@ const RootStack = createNativeStackNavigator({
     },
     Crashlytics: {
       screen: Crashlytics
+    },
+    Vibrations: {
+      screen: VibrationsScreen
     }
   },
 });
