@@ -43,7 +43,18 @@
     "clean": "expo prebuild --clean",
     "build": "expo prebuild",
     "build-android": "expo prebuild --platform android",
-    "build-ios": "expo prebuild --platform ios"
+    "build-ios": "expo prebuild --platform ios",
+    "android-testing-build-eas-cloud": "npx eas-cli build --platform android --profile preview",
+    "android-testing-build-eas-local": "npx eas-cli build --platform android --profile preview --local",
+    "ios-testing-build-eas-cloud": "npx eas-cli build --platform ios --profile preview",
+    "ios-testing-build-eas-local": "npx eas-cli build --platform ios --profile simulator",
+    "android-production-build-eas-cloud": "npx eas-cli build --platform android --profile production",
+    "android-production-build-eas-local": "npx eas-cli build --platform android --profile production --local",
+    "ios-production-build-eas-cloud": "npx eas-cli build --platform ios --profile production",
+    "ios-production-build-eas-local": "npx eas-cli build --platform ios --profile production --local",
+    "android-testing-apk-build-local": "expo prebuild --clean --platform android && cd android && ./gradlew assembleDebug",
+    "android-production-apk-build-local": "expo prebuild --clean --platform android && cd android && ./gradlew assembleRelease",
+    "android-production-aab-build-local": "expo prebuild --clean --platform android && cd android && ./gradlew bundleRelease"
   },
   "private": true
 }
